@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Add Cafe - Cafe Menu Scraper{% endblock %}
+
+{% block content %}
+<h2>Add a Cafe Menu</h2>
+
+<p style="color: #666; margin-bottom: 30px;">
+    Enter the URL of a Square ordering website to scrape the menu and add it to your database.
+</p>
+
+<form method="POST" action="/scrape">
+    <div class="form-group">
+        <label for="url">Cafe Website URL</label>
+        <input
+            type="url"
+            id="url"
+            name="url"
+            placeholder="https://square.site/example-cafe"
+            required
+        >
+        <small style="color: #999; display: block; margin-top: 5px;">
+            Example: https://square.site/s/example-cafe or similar Square ordering URLs
+        </small>
+    </div>
+
+    <button type="submit">Scrape Menu</button>
+</form>
+
+<div style="margin-top: 40px; padding: 20px; background: #fff3cd; border-radius: 8px; border: 1px solid #ffc107;">
+    <h3 style="color: #856404; margin-bottom: 10px;">⚠️ Important Notes</h3>
+    <ul style="color: #856404; line-height: 2;">
+        <li>Only works with Square ordering websites</li>
+        <li>The URL should be a direct link to the cafe's online menu</li>
+        <li>Scraping may take 10-30 seconds depending on menu size</li>
+        <li>The tool will automatically clean and organize the data</li>
+        <li>If a cafe already exists, it will be updated with new data</li>
+    </ul>
+</div>
+
+<div style="margin-top: 30px; padding: 20px; background: #d1ecf1; border-radius: 8px; border: 1px solid #bee5eb;">
+    <h3 style="color: #0c5460; margin-bottom: 10px;">💡 Tips</h3>
+    <ul style="color: #0c5460; line-height: 2;">
+        <li>Look for URLs that contain "square.site" or "order" in them</li>
+        <li>You can add multiple cafes - just submit this form again with a different URL</li>
+        <li>After adding, visit "View Cafes" to see the imported menu</li>
+    </ul>
+</div>
+{% endblock %}

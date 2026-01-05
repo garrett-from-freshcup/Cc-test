@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Cafes - Cafe Menu Scraper{% endblock %}
+
+{% block content %}
+<h2>Your Cafe Database</h2>
+
+{% if locations %}
+    <p style="color: #666; margin-bottom: 20px;">
+        You have {{ locations|length }} cafe{{ 's' if locations|length != 1 else '' }} in your database.
+    </p>
+
+    <div class="grid">
+        {% for loc in locations %}
+        <div class="card">
+            <h3>{{ loc.name }}</h3>
+
+            <p><strong>📍 Address:</strong></p>
+            <p style="margin-bottom: 10px;">
+                {{ loc.address }}<br>
+                {{ loc.city }}, {{ loc.state }} {{ loc.zip_code }}
+            </p>
+
+            {% if loc.phone %}
+            <p><strong>📞 Phone:</strong> {{ loc.phone }}</p>
+            {% endif %}
+
+            {% if loc.hours %}
+            <p><strong>🕐 Hours:</strong> {{ loc.hours }}</p>
+            {% endif %}
+
+            {% if loc.url %}
+            <p style="margin-top: 15px;">
+                <a href="{{ loc.url }}" target="_blank" style="color: #3498db;">
+                    Visit Website →
+                </a>
+            </p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+    <div class="empty-state">
+        <p style="font-size: 18px; color: #666; margin-bottom: 20px;">
+            You haven't added any cafes yet.
+        </p>
+        <p>
+            <a href="/scrape" class="btn">Add Your First Cafe</a>
+        </p>
+    </div>
+{% endif %}
+
+{% endblock %}

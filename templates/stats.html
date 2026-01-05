@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - Cafe Menu Scraper{% endblock %}
+
+{% block content %}
+<h2>Database Statistics</h2>
+
+{% if stats %}
+    <div class="grid">
+        <div class="card">
+            <h3>📍 Total Cafes</h3>
+            <p style="font-size: 48px; font-weight: bold; color: #3498db; margin: 20px 0;">
+                {{ stats.total_locations }}
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>🍽️ Total Menu Items</h3>
+            <p style="font-size: 48px; font-weight: bold; color: #3498db; margin: 20px 0;">
+                {{ stats.total_items }}
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>💰 Average Price</h3>
+            <p style="font-size: 48px; font-weight: bold; color: #27ae60; margin: 20px 0;">
+                ${{ "%.2f"|format(stats.price_stats.average) }}
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📊 Price Range</h3>
+            <p style="font-size: 24px; margin: 20px 0;">
+                <strong>Min:</strong> ${{ "%.2f"|format(stats.price_stats.min) }}<br>
+                <strong>Max:</strong> ${{ "%.2f"|format(stats.price_stats.max) }}
+            </p>
+        </div>
+    </div>
+
+    {% if stats.categories %}
+    <div style="margin-top: 40px;">
+        <h3 style="color: #2c3e50; margin-bottom: 20px;">Items by Category</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Number of Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in stats.categories %}
+                <tr>
+                    <td>{{ cat.category }}</td>
+                    <td>{{ cat.count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+{% else %}
+    <div class="empty-state">
+        <p style="font-size: 18px; color: #666; margin-bottom: 20px;">
+            No data available yet.
+        </p>
+        <p>
+            <a href="/scrape" class="btn">Add Your First Cafe</a>
+        </p>
+    </div>
+{% endif %}
+
+{% endblock %}

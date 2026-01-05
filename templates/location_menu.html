@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}{{ location.name }} - Cafe Menu Scraper{% endblock %}
+
+{% block content %}
+<a href="/locations" style="color: #3498db; text-decoration: none; margin-bottom: 20px; display: inline-block;">
+    ← Back to All Cafes
+</a>
+
+<h2>{{ location.name }}</h2>
+
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 30px;">
+    <p><strong>📍 Address:</strong> {{ location.address }}, {{ location.city }}, {{ location.state }} {{ location.zip_code }}</p>
+    {% if location.phone %}
+    <p><strong>📞 Phone:</strong> {{ location.phone }}</p>
+    {% endif %}
+    {% if location.hours %}
+    <p><strong>🕐 Hours:</strong> {{ location.hours }}</p>
+    {% endif %}
+    {% if location.url %}
+    <p><strong>🔗 Website:</strong> <a href="{{ location.url }}" target="_blank" style="color: #3498db;">{{ location.url }}</a></p>
+    {% endif %}
+</div>
+
+{% if items_by_category %}
+    {% for category, items in items_by_category.items() %}
+    <div style="margin-bottom: 40px;">
+        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">
+            {{ category }}
+        </h3>
+
+        {% for item in items %}
+        <div class="result-item">
+            <h3 style="font-size: 18px;">{{ item.name }}</h3>
+
+            {% if item.description %}
+            <p style="color: #666; margin: 10px 0;">{{ item.description }}</p>
+            {% endif %}
+
+            {% if item.sizes %}
+            <div class="sizes">
+                <strong>Sizes:</strong><br>
+                {% for size in item.sizes %}
+                <span class="size-option">
+                    {{ size.name }}
+                    {% if size.volume %} ({{ size.volume }}){% endif %}
+                    - <span class="price">${{ "%.2f"|format(size.price) }}</span>
+                </span>
+                {% endfor %}
+            </div>
+            {% elif item.base_price %}
+            <div style="margin-top: 10px;">
+                <strong>Price:</strong> <span class="price">${{ "%.2f"|format(item.base_price) }}</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+{% else %}
+    <div class="empty-state">
+        <p style="font-size: 18px; color: #666;">
+            No menu items found for this location.
+        </p>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Cafe Menu Scraper{% endblock %}
+
+{% block content %}
+<h2>Welcome to Cafe Menu Scraper!</h2>
+
+<p style="font-size: 18px; color: #666; margin-bottom: 30px;">
+    This tool helps you collect and search cafe menu data from Square ordering websites.
+</p>
+
+<div class="grid">
+    <div class="card">
+        <h3>🔍 Add a Cafe</h3>
+        <p>Scrape menu data from a Square ordering website and add it to your database.</p>
+        <br>
+        <a href="/scrape" class="btn">Get Started</a>
+    </div>
+
+    <div class="card">
+        <h3>🔎 Search Menus</h3>
+        <p>Find menu items by name, size, location, category, or price range.</p>
+        <br>
+        <a href="/search" class="btn">Search Now</a>
+    </div>
+
+    <div class="card">
+        <h3>📍 View Cafes</h3>
+        <p>Browse all the cafe locations you've added and view their full menus.</p>
+        <br>
+        <a href="/locations" class="btn">View All</a>
+    </div>
+
+    <div class="card">
+        <h3>📊 Statistics</h3>
+        <p>See statistics about your cafe database including prices and categories.</p>
+        <br>
+        <a href="/stats" class="btn">View Stats</a>
+    </div>
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background: #e8f4f8; border-radius: 8px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px;">How It Works</h3>
+    <ol style="color: #666; line-height: 2;">
+        <li><strong>Add Cafes:</strong> Enter a Square ordering website URL to scrape their menu</li>
+        <li><strong>Search:</strong> Use filters to find specific drinks by size, location, or price</li>
+        <li><strong>Browse:</strong> View all cafes and their complete menus</li>
+        <li><strong>Analyze:</strong> Check statistics to see pricing trends and categories</li>
+    </ol>
+</div>
+{% endblock %}

@@ -2,8 +2,26 @@
 
 A Python tool that scrapes cafe menu data from Square ordering websites, cleans and normalizes the data, and provides powerful search and filter functionality.
 
+## 🌟 For Non-Technical Users
+
+**Don't know how to use the command line? No problem!**
+
+This tool includes a **simple web interface** - just click a button to start, then use it in your web browser!
+
+👉 **[See START.md for simple instructions](START.md)** 👈
+
+Quick Start:
+1. Double-click `SETUP-WINDOWS.bat` (Windows) or `SETUP-MAC.command` (Mac) - one time only
+2. Double-click `START-WINDOWS.bat` (Windows) or `START-MAC.command` (Mac)
+3. Use the tool in your web browser - it's that easy!
+
+No terminal commands needed!
+
+---
+
 ## Features
 
+- **Web Interface**: User-friendly browser-based interface (no coding required!)
 - **Web Scraping**: Extracts menu data from Square online ordering websites
 - **Data Normalization**: Cleans and standardizes menu items, prices, sizes, and categories
 - **SQLite Storage**: Persists data in a lightweight, portable database
@@ -13,7 +31,7 @@ A Python tool that scrapes cafe menu data from Square ordering websites, cleans 
   - Category (Coffee, Tea, Pastries, etc.)
   - Price range
   - Text search (item names and descriptions)
-- **CLI Interface**: Easy-to-use command-line tool
+- **CLI Interface**: Command-line tool for technical users
 
 ## Installation
 
@@ -30,7 +48,41 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Scraping a Cafe Menu
+### Web Interface (Recommended for Non-Technical Users)
+
+Start the web interface:
+
+**Windows:**
+```bash
+# One-time setup:
+SETUP-WINDOWS.bat
+
+# Then start the tool:
+START-WINDOWS.bat
+```
+
+**Mac/Linux:**
+```bash
+# One-time setup:
+./SETUP-MAC.command    # or ./SETUP-LINUX.sh
+
+# Then start the tool:
+./START-MAC.command    # or ./START-LINUX.sh
+```
+
+The tool will open in your web browser at http://localhost:5000
+
+Features:
+- **Add Cafe**: Enter a URL and click a button to scrape
+- **Search Items**: Use form fields to filter by size, location, price, etc.
+- **View Cafes**: See all your saved cafes in a visual interface
+- **Statistics**: View charts and stats about your data
+
+---
+
+### Command-Line Interface (For Technical Users)
+
+#### Scraping a Cafe Menu
 
 Scrape a menu from a Square ordering website:
 
