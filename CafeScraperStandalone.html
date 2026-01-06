@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Menu Scraper - No Installation Required!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #bdc3c7;
+            font-size: 16px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        nav {
+            background: #ecf0f1;
+            padding: 15px 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        nav button:hover {
+            background: #2980b9;
+        }
+
+        nav button.active {
+            background: #2c3e50;
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 200px;
+            font-family: monospace;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        button.btn {
+            background: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button.btn:hover {
+            background: #2980b9;
+        }
+
+        button.btn-success {
+            background: #27ae60;
+        }
+
+        button.btn-success:hover {
+            background: #229954;
+        }
+
+        button.btn-danger {
+            background: #e74c3c;
+        }
+
+        button.btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .item h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .sizes {
+            margin-top: 10px;
+        }
+
+        .size-tag {
+            display: inline-block;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 3px;
+            font-size: 13px;
+        }
+
+        .price {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .how-to {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .how-to h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .how-to ol {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .how-to li {
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>☕ Cafe Menu Scraper</h1>
+            <p class="subtitle">No Installation Required - Works Entirely in Your Browser!</p>
+            <span class="badge">✓ 100% Safe - No Downloads Needed</span>
+        </header>
+
+        <nav>
+            <button onclick="showSection('home')" class="active">Home</button>
+            <button onclick="showSection('add')">Add Cafe</button>
+            <button onclick="showSection('search')">Search</button>
+            <button onclick="showSection('cafes')">View Cafes</button>
+            <button onclick="showSection('stats')">Statistics</button>
+            <button onclick="clearAllData()" style="margin-left: auto; background: #e74c3c;">Clear All Data</button>
+        </nav>
+
+        <div class="content">
+            <!-- HOME SECTION -->
+            <div id="home" class="section active">
+                <h2>Welcome!</h2>
+
+                <div class="alert alert-info">
+                    <strong>🎉 No Installation Required!</strong><br>
+                    This tool runs completely in your web browser. Your data is saved locally on your computer - nothing is uploaded to the internet.
+                    Just save this HTML file and open it anytime!
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>📝 Add a Cafe</h3>
+                        <p>Visit a Square cafe website, copy the page content, and paste it here to extract the menu.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🔍 Search</h3>
+                        <p>Filter items by size, price, category, or search by name.</p>
+                    </div>
+                    <div class="card">
+                        <h3>📍 View Cafes</h3>
+                        <p>Browse all saved cafes and their menus.</p>
+                    </div>
+                    <div class="card">
+                        <h3>📊 Statistics</h3>
+                        <p>See stats about your cafe collection.</p>
+                    </div>
+                </div>
+
+                <div class="how-to">
+                    <h3>How to Use (Super Easy!):</h3>
+                    <ol>
+                        <li><strong>Visit a cafe's Square website</strong> in your browser</li>
+                        <li><strong>Right-click anywhere</strong> on the page and select "View Page Source" (or press Ctrl+U on Windows, Cmd+Option+U on Mac)</li>
+                        <li><strong>Copy everything</strong> (Ctrl+A then Ctrl+C on Windows, Cmd+A then Cmd+C on Mac)</li>
+                        <li><strong>Click "Add Cafe"</strong> at the top and paste it in the box</li>
+                        <li><strong>Click "Extract Menu"</strong> and you're done!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- ADD CAFE SECTION -->
+            <div id="add" class="section">
+                <h2>Add a Cafe Menu</h2>
+
+                <div class="alert alert-warning">
+                    <strong>How to get the cafe data:</strong><br>
+                    1. Visit the cafe's Square ordering website<br>
+                    2. Right-click → "View Page Source" (or press Ctrl+U / Cmd+Option+U)<br>
+                    3. Select all (Ctrl+A / Cmd+A) and copy (Ctrl+C / Cmd+C)<br>
+                    4. Paste it in the box below
+                </div>
+
+                <div class="form-group">
+                    <label for="cafeUrl">Cafe Website URL (optional, for reference)</label>
+                    <input type="url" id="cafeUrl" placeholder="https://square.site/example-cafe">
+                </div>
+
+                <div class="form-group">
+                    <label for="htmlContent">Paste the HTML content here:</label>
+                    <textarea id="htmlContent" placeholder="Paste the page source code here..."></textarea>
+                </div>
+
+                <button class="btn btn-success" onclick="extractMenu()">Extract Menu</button>
+
+                <div id="extractResult" style="margin-top: 20px;"></div>
+            </div>
+
+            <!-- SEARCH SECTION -->
+            <div id="search" class="section">
+                <h2>Search Menu Items</h2>
+
+                <div class="filters">
+                    <div class="form-group">
+                        <label for="searchQuery">Search Text</label>
+                        <input type="text" id="searchQuery" placeholder="e.g., latte">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchCategory">Category</label>
+                        <select id="searchCategory">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchSize">Size</label>
+                        <select id="searchSize">
+                            <option value="">All Sizes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchMinPrice">Min Price</label>
+                        <input type="number" id="searchMinPrice" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchMaxPrice">Max Price</label>
+                        <input type="number" id="searchMaxPrice" step="0.01" placeholder="99.99">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchCafe">Cafe Name</label>
+                        <select id="searchCafe">
+                            <option value="">All Cafes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="performSearch()">Search</button>
+                <button class="btn" onclick="clearSearch()" style="margin-left: 10px; background: #95a5a6;">Clear Filters</button>
+
+                <div id="searchResults" style="margin-top: 30px;"></div>
+            </div>
+
+            <!-- CAFES SECTION -->
+            <div id="cafes" class="section">
+                <h2>Your Cafes</h2>
+                <div id="cafesList"></div>
+            </div>
+
+            <!-- STATS SECTION -->
+            <div id="stats" class="section">
+                <h2>Statistics</h2>
+                <div id="statsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSearchFilters();
+            loadCafes();
+            loadStats();
+        });
+
+        // Storage functions
+        function getData() {
+            const data = localStorage.getItem('cafeMenuData');
+            return data ? JSON.parse(data) : { cafes: [] };
+        }
+
+        function saveData(data) {
+            localStorage.setItem('cafeMenuData', JSON.stringify(data));
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to delete all saved cafe data? This cannot be undone.')) {
+                localStorage.removeItem('cafeMenuData');
+                showSection('home');
+                alert('All data cleared!');
+            }
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            if (sectionId === 'search') {
+                updateSearchFilters();
+            } else if (sectionId === 'cafes') {
+                loadCafes();
+            } else if (sectionId === 'stats') {
+                loadStats();
+            }
+        }
+
+        // Extract menu from HTML
+        function extractMenu() {
+            const html = document.getElementById('htmlContent').value;
+            const url = document.getElementById('cafeUrl').value || 'Unknown';
+            const resultDiv = document.getElementById('extractResult');
+
+            if (!html.trim()) {
+                resultDiv.innerHTML = '<div class="alert alert-warning">Please paste some HTML content first!</div>';
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Extract cafe name
+                const cafeName = doc.querySelector('h1')?.textContent.trim() ||
+                                doc.querySelector('title')?.textContent.split('-')[0].trim() ||
+                                'Unknown Cafe';
+
+                // Extract menu items
+                const items = [];
+
+                // Look for menu items in various ways
+                const itemElements = doc.querySelectorAll('[class*="item"], [class*="product"], [class*="menu"]');
+
+                itemElements.forEach(elem => {
+                    const nameElem = elem.querySelector('h2, h3, h4, [class*="name"], [class*="title"]');
+                    if (!nameElem) return;
+
+                    const name = nameElem.textContent.trim();
+                    if (!name || name.length < 2) return;
+
+                    const descElem = elem.querySelector('[class*="desc"], p');
+                    const description = descElem ? descElem.textContent.trim() : '';
+
+                    // Extract prices
+                    const priceElems = elem.querySelectorAll('[class*="price"]');
+                    const sizes = [];
+
+                    priceElems.forEach(priceElem => {
+                        const priceText = priceElem.textContent;
+                        const priceMatch = priceText.match(/\$?(\d+\.?\d*)/);
+                        if (priceMatch) {
+                            sizes.push({
+                                name: 'Regular',
+                                price: parseFloat(priceMatch[1])
+                            });
+                        }
+                    });
+
+                    if (sizes.length > 0) {
+                        items.push({
+                            name: name,
+                            description: description,
+                            category: 'Menu Item',
+                            sizes: sizes,
+                            basePrice: sizes[0].price
+                        });
+                    }
+                });
+
+                if (items.length === 0) {
+                    resultDiv.innerHTML = '<div class="alert alert-warning">Could not extract menu items. Make sure you pasted the full page source from a cafe menu page.</div>';
+                    return;
+                }
+
+                // Save to storage
+                const data = getData();
+                const cafe = {
+                    id: Date.now(),
+                    name: cafeName,
+                    url: url,
+                    items: items,
+                    addedDate: new Date().toISOString()
+                };
+
+                data.cafes.push(cafe);
+                saveData(data);
+
+                resultDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> Added ${items.length} items from ${cafeName}!
+                        <br><br>
+                        <button class="btn" onclick="showSection('cafes')">View Cafe</button>
+                    </div>
+                `;
+
+                // Clear form
+                document.getElementById('htmlContent').value = '';
+                document.getElementById('cafeUrl').value = '';
+
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="alert alert-warning">Error processing HTML: ${error.message}</div>`;
+            }
+        }
+
+        // Search functions
+        function updateSearchFilters() {
+            const data = getData();
+            const categories = new Set();
+            const sizes = new Set();
+            const cafes = new Map();
+
+            data.cafes.forEach(cafe => {
+                cafes.set(cafe.id, cafe.name);
+                cafe.items.forEach(item => {
+                    categories.add(item.category);
+                    item.sizes.forEach(size => sizes.add(size.name));
+                });
+            });
+
+            // Update category dropdown
+            const categorySelect = document.getElementById('searchCategory');
+            categorySelect.innerHTML = '<option value="">All Categories</option>';
+            Array.from(categories).sort().forEach(cat => {
+                categorySelect.innerHTML += `<option value="${cat}">${cat}</option>`;
+            });
+
+            // Update size dropdown
+            const sizeSelect = document.getElementById('searchSize');
+            sizeSelect.innerHTML = '<option value="">All Sizes</option>';
+            Array.from(sizes).sort().forEach(size => {
+                sizeSelect.innerHTML += `<option value="${size}">${size}</option>`;
+            });
+
+            // Update cafe dropdown
+            const cafeSelect = document.getElementById('searchCafe');
+            cafeSelect.innerHTML = '<option value="">All Cafes</option>';
+            cafes.forEach((name, id) => {
+                cafeSelect.innerHTML += `<option value="${id}">${name}</option>`;
+            });
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchQuery').value.toLowerCase();
+            const category = document.getElementById('searchCategory').value;
+            const size = document.getElementById('searchSize').value;
+            const minPrice = parseFloat(document.getElementById('searchMinPrice').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('searchMaxPrice').value) || Infinity;
+            const cafeId = document.getElementById('searchCafe').value;
+
+            const data = getData();
+            const results = [];
+
+            data.cafes.forEach(cafe => {
+                if (cafeId && cafe.id.toString() !== cafeId) return;
+
+                cafe.items.forEach(item => {
+                    // Apply filters
+                    if (query && !item.name.toLowerCase().includes(query) &&
+                        !item.description.toLowerCase().includes(query)) return;
+
+                    if (category && item.category !== category) return;
+
+                    if (size && !item.sizes.some(s => s.name === size)) return;
+
+                    if (item.basePrice < minPrice || item.basePrice > maxPrice) return;
+
+                    results.push({
+                        cafe: cafe.name,
+                        item: item
+                    });
+                });
+            });
+
+            displaySearchResults(results);
+        }
+
+        function displaySearchResults(results) {
+            const resultsDiv = document.getElementById('searchResults');
+
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div class="empty">No items found matching your criteria.</div>';
+                return;
+            }
+
+            let html = `<h3 style="margin-bottom: 15px;">Found ${results.length} item${results.length !== 1 ? 's' : ''}</h3>`;
+
+            results.forEach(result => {
+                const item = result.item;
+                html += `
+                    <div class="item">
+                        <h3>${item.name}</h3>
+                        <span class="category-badge">${item.category}</span>
+                        ${item.description ? `<p style="color: #666; margin: 10px 0;">${item.description}</p>` : ''}
+                        <div class="sizes">
+                            <strong>Sizes:</strong><br>
+                            ${item.sizes.map(s => `
+                                <span class="size-tag">
+                                    ${s.name} - <span class="price">$${s.price.toFixed(2)}</span>
+                                </span>
+                            `).join('')}
+                        </div>
+                        <p style="color: #999; margin-top: 10px; font-size: 13px;">📍 ${result.cafe}</p>
+                    </div>
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+
+        function clearSearch() {
+            document.getElementById('searchQuery').value = '';
+            document.getElementById('searchCategory').value = '';
+            document.getElementById('searchSize').value = '';
+            document.getElementById('searchMinPrice').value = '';
+            document.getElementById('searchMaxPrice').value = '';
+            document.getElementById('searchCafe').value = '';
+            document.getElementById('searchResults').innerHTML = '';
+        }
+
+        // Load cafes
+        function loadCafes() {
+            const data = getData();
+            const cafesDiv = document.getElementById('cafesList');
+
+            if (data.cafes.length === 0) {
+                cafesDiv.innerHTML = `
+                    <div class="empty">
+                        <p style="font-size: 18px;">You haven't added any cafes yet.</p>
+                        <br>
+                        <button class="btn" onclick="showSection('add')">Add Your First Cafe</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="grid">';
+            data.cafes.forEach(cafe => {
+                html += `
+                    <div class="card">
+                        <h3>${cafe.name}</h3>
+                        <p style="margin: 10px 0;"><strong>Items:</strong> ${cafe.items.length}</p>
+                        <p style="margin: 10px 0; font-size: 13px; color: #666;">
+                            Added: ${new Date(cafe.addedDate).toLocaleDateString()}
+                        </p>
+                        ${cafe.url !== 'Unknown' ? `
+                            <p style="margin-top: 10px;">
+                                <a href="${cafe.url}" target="_blank" style="color: #3498db;">Visit Website →</a>
+                            </p>
+                        ` : ''}
+                        <button class="btn btn-danger" onclick="deleteCafe(${cafe.id})" style="margin-top: 15px; padding: 8px 15px; font-size: 13px;">
+                            Delete
+                        </button>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            cafesDiv.innerHTML = html;
+        }
+
+        function deleteCafe(cafeId) {
+            if (!confirm('Are you sure you want to delete this cafe?')) return;
+
+            const data = getData();
+            data.cafes = data.cafes.filter(c => c.id !== cafeId);
+            saveData(data);
+            loadCafes();
+            updateSearchFilters();
+        }
+
+        // Load statistics
+        function loadStats() {
+            const data = getData();
+            const statsDiv = document.getElementById('statsContent');
+
+            if (data.cafes.length === 0) {
+                statsDiv.innerHTML = `
+                    <div class="empty">
+                        <p style="font-size: 18px;">No data yet.</p>
+                        <br>
+                        <button class="btn" onclick="showSection('add')">Add Your First Cafe</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let totalItems = 0;
+            let totalPrice = 0;
+            let minPrice = Infinity;
+            let maxPrice = 0;
+            const categories = {};
+
+            data.cafes.forEach(cafe => {
+                cafe.items.forEach(item => {
+                    totalItems++;
+                    totalPrice += item.basePrice;
+                    minPrice = Math.min(minPrice, item.basePrice);
+                    maxPrice = Math.max(maxPrice, item.basePrice);
+                    categories[item.category] = (categories[item.category] || 0) + 1;
+                });
+            });
+
+            const avgPrice = totalPrice / totalItems;
+
+            let html = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Cafes</div>
+                        <div class="stat-number">${data.cafes.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Items</div>
+                        <div class="stat-number">${totalItems}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Average Price</div>
+                        <div class="stat-number">$${avgPrice.toFixed(2)}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Price Range</div>
+                        <div class="stat-number" style="font-size: 24px;">
+                            $${minPrice.toFixed(2)} - $${maxPrice.toFixed(2)}
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px;">Items by Category</h3>
+                <div class="grid">
+            `;
+
+            Object.entries(categories).sort((a, b) => b[1] - a[1]).forEach(([cat, count]) => {
+                html += `
+                    <div class="card">
+                        <h3>${cat}</h3>
+                        <p style="font-size: 32px; color: #3498db; margin: 10px 0;">${count}</p>
+                        <p style="color: #666;">items</p>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            statsDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
