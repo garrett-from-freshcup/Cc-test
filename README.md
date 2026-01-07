@@ -4,9 +4,28 @@ A Python tool that scrapes cafe menu data from Square ordering websites, cleans 
 
 ## 🌟 For Non-Technical Users
 
+**Afraid to install programs? Want something completely safe?**
+
+### 🎉 ZERO INSTALLATION VERSION (Recommended!)
+
+**`CafeScraperStandalone.html`** - A single HTML file that works in your browser!
+
+- ✅ **No installation required** - Just open the HTML file
+- ✅ **Works on phones & tablets** - Android, iPhone, iPad
+- ✅ **100% safe** - Can't harm your computer
+- ✅ **Completely private** - Data never leaves your device
+- ✅ **Works offline** - No internet needed after first open
+
+👉 **[See NO-INSTALL-INSTRUCTIONS.md](NO-INSTALL-INSTRUCTIONS.md)** for super simple instructions 👈
+📱 **[See ANDROID-INSTRUCTIONS.md](ANDROID-INSTRUCTIONS.md)** for phone/tablet instructions
+
+---
+
+### Alternative: Web Interface (Requires Python Installation)
+
 **Don't know how to use the command line? No problem!**
 
-This tool includes a **simple web interface** - just click a button to start, then use it in your web browser!
+This tool also includes a **local web server** - click a button to start, then use it in your web browser!
 
 👉 **[See START.md for simple instructions](START.md)** 👈
 

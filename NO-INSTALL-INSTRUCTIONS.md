@@ -4,6 +4,10 @@
 
 This version runs completely in your web browser. No Python, no programs, nothing to install!
 
+### 📱 Works on Phones & Tablets!
+Yes, it works on **Android phones, iPhones, iPads, and tablets** too!
+👉 **See [ANDROID-INSTRUCTIONS.md](ANDROID-INSTRUCTIONS.md) for phone/tablet instructions**
+
 ## How to Use (3 Easy Steps)
 
 ### Step 1: Save the File
